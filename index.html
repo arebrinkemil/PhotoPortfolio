@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Simple AJAX Example with Data</title>
+    <link rel="stylesheet" href="src/output.css" />
+  </head>
+  <body class="bg-slate-100 rounded-xl p-8 dark:bg-slate-800">
+    <input type="text" id="textInput" placeholder="Enter a string" />
+    <button id="ajaxButton">Send String to PHP</button>
+    <div
+      class="bg-slate-100 rounded-xl p-8 dark:bg-slate-800"
+      id="message"
+    ></div>
+
+    <script>
+      document
+        .getElementById("ajaxButton")
+        .addEventListener("click", function () {
+          var xhr = new XMLHttpRequest();
+          var inputText = document.getElementById("textInput").value;
+          xhr.open("POST", "processString.php", true);
+          xhr.setRequestHeader(
+            "Content-type",
+            "application/x-www-form-urlencoded"
+          );
+
+          xhr.onload = function () {
+            if (this.status == 200) {
+              document.getElementById("message").innerHTML = this.responseText;
+            }
+          };
+
+          xhr.send("inputText=" + encodeURIComponent(inputText));
+        });
+    </script>
+  </body>
+</html>
