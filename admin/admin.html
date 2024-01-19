@@ -4,9 +4,25 @@
     <meta charset="UTF-8" />
     <title>Simple AJAX Example with Data</title>
     <link rel="stylesheet" href="/src/output.css" />
+
+    <style>
+      #drop_zone {
+        border: 5px solid blue;
+        width: 200px;
+        height: 100px;
+      }
+    </style>
   </head>
   <body class="bg-slate-100 rounded-xl p-8 dark:bg-slate-800">
     <div id="albums"></div>
+
+    <div
+      id="drop_zone"
+      ondrop="dropHandler(event);"
+      ondragover="dragOverHandler(event);"
+    >
+      <p>Drag one or more files to this <i>drop zone</i>.</p>
+    </div>
 
     <script src="admin.js"></script>
   </body>

@@ -69,3 +69,61 @@ function getImages(albumId) {
 //     imagesContainer.appendChild(imageElement);
 //   });
 // }
+
+function dropHandler(ev) {
+  console.log("File(s) dropped");
+
+  // Prevent default behavior (Prevent file from being opened)
+  ev.preventDefault();
+
+  if (ev.dataTransfer.items) {
+    // Use DataTransferItemList interface to access the file(s)
+    [...ev.dataTransfer.items].forEach((item, i) => {
+      // If dropped items aren't files, reject them
+      if (item.kind === "file") {
+        const file = item.getAsFile();
+        if (file.type.startsWith("image/")) {
+          console.log(`… file[${i}].name = ${file.name}`);
+          imageUpload(file);
+        } else {
+          console.log(`… file[${i}] is not an image`);
+        }
+      }
+    });
+  } else {
+    // Use DataTransfer interface to access the file(s)
+    [...ev.dataTransfer.files].forEach((file, i) => {
+      if (file.type.startsWith("image/")) {
+        console.log(`… file[${i}].name = ${file.name}`);
+      } else {
+        console.log(`… file[${i}] is not an image`);
+      }
+    });
+  }
+}
+
+function dragOverHandler(ev) {
+  console.log("File(s) in drop zone");
+
+  // Prevent default behavior (Prevent file from being opened)
+  ev.preventDefault();
+}
+
+function imageUpload(file) {
+  const formData = new FormData();
+  formData.append("image", file);
+
+  fetch("../imageUpload.php", {
+    method: "POST",
+    body: formData,
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.status === "success") {
+        console.log(data);
+      } else {
+        console.error("Error uploading image:", data.message);
+      }
+    })
+    .catch((error) => console.error("Error:", error));
+}
