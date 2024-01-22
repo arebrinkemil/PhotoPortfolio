@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
     .then((response) => response.json())
     .then((data) => {
       if (data.status === "success") {
+        createOptions(data.albums);
         createAlbums(data.albums);
       } else {
         console.error("Error fetching albums:", data.message);
@@ -10,6 +11,16 @@ document.addEventListener("DOMContentLoaded", function () {
     })
     .catch((error) => console.error("Error:", error));
 });
+
+async function createOptions(albums) {
+  const albumSelect = document.getElementById("albumSelect");
+  albums.forEach((album) => {
+    const option = document.createElement("option");
+    option.setAttribute("value", album.AlbumID);
+    option.textContent = album.AlbumName;
+    albumSelect.appendChild(option);
+  });
+}
 
 async function createAlbums(albums) {
   console.log(albums);
@@ -59,42 +70,30 @@ function getImages(albumId) {
     });
 }
 
-// function createImages(images) {
-//   const imagesContainer = document.getElementById("images");
-//   imagesContainer.innerHTML = "";
-//   images.forEach((image) => {
-//     const imageElement = document.createElement("img");
-//     imageElement.setAttribute("src", image.FilePath);
-//     imageElement.setAttribute("class", "image");
-//     imagesContainer.appendChild(imageElement);
-//   });
-// }
+let filesToUpload = [];
 
 function dropHandler(ev) {
   console.log("File(s) dropped");
 
-  // Prevent default behavior (Prevent file from being opened)
   ev.preventDefault();
 
   if (ev.dataTransfer.items) {
-    // Use DataTransferItemList interface to access the file(s)
     [...ev.dataTransfer.items].forEach((item, i) => {
-      // If dropped items aren't files, reject them
       if (item.kind === "file") {
         const file = item.getAsFile();
         if (file.type.startsWith("image/")) {
           console.log(`… file[${i}].name = ${file.name}`);
-          imageUpload(file);
+          filesToUpload.push(file);
         } else {
           console.log(`… file[${i}] is not an image`);
         }
       }
     });
   } else {
-    // Use DataTransfer interface to access the file(s)
     [...ev.dataTransfer.files].forEach((file, i) => {
       if (file.type.startsWith("image/")) {
         console.log(`… file[${i}].name = ${file.name}`);
+        filesToUpload.push(file);
       } else {
         console.log(`… file[${i}] is not an image`);
       }
@@ -102,18 +101,26 @@ function dropHandler(ev) {
   }
 }
 
+document.getElementById("uploadButton").addEventListener("click", function () {
+  const albumId = document.getElementById("albumSelect").value;
+  filesToUpload.forEach((file) => {
+    imageUpload(file, albumId);
+  });
+  filesToUpload = [];
+});
+
 function dragOverHandler(ev) {
   console.log("File(s) in drop zone");
 
-  // Prevent default behavior (Prevent file from being opened)
   ev.preventDefault();
 }
 
-function imageUpload(file) {
+function imageUpload(file, albumId) {
   const formData = new FormData();
   formData.append("image", file);
+  formData.append("albumId", albumId);
 
-  fetch("../imageUpload.php", {
+  fetch("imageUpload.php", {
     method: "POST",
     body: formData,
   })
@@ -127,3 +134,14 @@ function imageUpload(file) {
     })
     .catch((error) => console.error("Error:", error));
 }
+
+// function createImages(images) {
+//   const imagesContainer = document.getElementById("images");
+//   imagesContainer.innerHTML = "";
+//   images.forEach((image) => {
+//     const imageElement = document.createElement("img");
+//     imageElement.setAttribute("src", image.FilePath);
+//     imageElement.setAttribute("class", "image");
+//     imagesContainer.appendChild(imageElement);
+//   });
+// }
