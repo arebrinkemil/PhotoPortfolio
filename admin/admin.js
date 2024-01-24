@@ -135,6 +135,36 @@ function imageUpload(file, albumId) {
     .catch((error) => console.error("Error:", error));
 }
 
+async function createAlbum() {
+  var albumNameValue = document.getElementById("albumName").value;
+  var albumDescValue = document.getElementById("albumDesc").value;
+
+  if (albumNameValue.trim() === "" || albumDescValue.trim() === "") {
+    console.log("Please fill in all the fields.");
+    return;
+  }
+
+  var data = {
+    albumName: albumNameValue,
+    albumDesc: albumDescValue,
+  };
+
+  try {
+    const response = await fetch("createAlbum.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    const responseData = await response.json();
+    console.log(responseData);
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
 // function createImages(images) {
 //   const imagesContainer = document.getElementById("images");
 //   imagesContainer.innerHTML = "";

@@ -6,6 +6,10 @@
     <link rel="stylesheet" href="/src/output.css" />
 
     <style>
+      body {
+        background-color: #242424;
+        color: #00ff00;
+      }
       #drop_zone {
         border: 5px solid blue;
         width: 200px;
@@ -13,8 +17,19 @@
       }
     </style>
   </head>
-  <body class="bg-slate-100 rounded-xl p-8 dark:bg-slate-800">
+  <body class="rounded-xl p-8">
     <div id="albums"></div>
+
+    <form id="createAlbum">
+      <label for="albumName">Album name:</label>
+      <input type="text" id="albumName" name="albumName" required />
+
+      <label for="albumDesc">description</label>
+      <input type="text" id="albumDesc" name="albumDesc" required />
+
+      <button type="button" onclick="createAlbum()">Submit</button>
+    </form>
+
     <select id="albumSelect"></select>
     <button id="uploadButton">Upload Images</button>
     <div id="dropzone">Drop files here</div>
