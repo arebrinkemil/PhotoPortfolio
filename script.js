@@ -16,7 +16,7 @@ function createAlbums(albums) {
   const albumsContainer = document.getElementById("albums");
   const albumButton = document.createElement("button");
   albumButton.innerHTML = "HOME";
-  albumButton.setAttribute("class", "album text-white");
+  albumButton.setAttribute("class", "album text-blue-600");
   albumButton.setAttribute("data-album-id", "none");
   albumsContainer.appendChild(albumButton);
 
@@ -27,7 +27,7 @@ function createAlbums(albums) {
   albums.forEach((album) => {
     const albumButton = document.createElement("button");
     albumButton.innerHTML = album.AlbumName;
-    albumButton.setAttribute("class", "album text-white");
+    albumButton.setAttribute("class", "album text-blue-600");
     albumButton.setAttribute("data-album-id", album.AlbumID);
     albumsContainer.appendChild(albumButton);
 

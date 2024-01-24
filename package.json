@@ -2,10 +2,11 @@
   "name": "photoportfolio",
   "version": "1.0.0",
   "description": "Photography portfolio",
-  "main": "index.js",
+  "main": "script.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tailwindcss -i ./src/input.css -o ./style.css --watch"
   },
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
