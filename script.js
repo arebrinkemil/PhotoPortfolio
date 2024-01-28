@@ -65,6 +65,10 @@ function createImages(images) {
     const imageElement = document.createElement("img");
     imageElement.setAttribute("src", image.FilePath);
     imageElement.setAttribute("class", "image");
+    imageElement.setAttribute("class", "drop-in");
+
+    imageElement.setAttribute("loading", "lazy");
+
     imagesContainer.appendChild(imageElement);
   });
 }

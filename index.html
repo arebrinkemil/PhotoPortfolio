@@ -5,9 +5,27 @@
     <title>Simple AJAX Example with Data</title>
     <link rel="stylesheet" href="custom.css" />
     <link rel="stylesheet" href="style.css" />
+    <style>
+      .drop-in {
+        animation: drop-in 1s ease 200ms backwards;
+      }
+
+      @keyframes drop-in {
+        from {
+          opacity: 0;
+          transform: translateY(-100px);
+        }
+        to {
+          opacity: 1;
+          transform: translate(0px);
+        }
+      }
+    </style>
   </head>
-  <body class="rounded-xl p-8">
-    <div id="albums" class="text-5x"></div>
+  <body class="overflow-x-hidden w-screen">
+    <div class="">
+      <div id="albums" class="text-5x w-screen flex justify-around"></div>
+    </div>
     <div id="imageSection" class="p-5 sm:p-8">
       <div
         id="images"
