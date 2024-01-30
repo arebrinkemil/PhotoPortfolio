@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-  fetch("getAlbums.php")
+  fetch("/getAlbums.php")
     .then((response) => response.json())
     .then((data) => {
       if (data.status === "success") {
@@ -39,7 +39,7 @@ function createAlbums(albums) {
 }
 
 function getImages(albumId) {
-  fetch("getImages.php", {
+  fetch("/getImages.php", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
